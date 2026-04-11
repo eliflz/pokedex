@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches:
+      - main
 
 jobs:
   build_and_deploy_job:
@@ -23,11 +27,13 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ASHY_SAND_09D6DB80F }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          ###### CONFIGURACIÓN EXACTA PARA TU PROYECTO ######
-          app_location: "/"          # Raíz donde está el package.json
-          api_location: ""           
-          output_location: "dist/pokedex-angular" # RUTA FINAL SEGÚN TUS LOGS
-          ###### ###### ###### ###### ###### ######
+          
+          ###### CONFIGURACIÓN FINAL PARA ANGULAR + SEGURIDAD ######
+          app_location: "/"                # Donde está el package.json
+          api_location: ""                 # No hay API de Azure Functions
+          output_location: "dist/pokedex-angular" # Carpeta de salida de Angular
+          config_file_location: "/"        # UBICACIÓN DEL ARCHIVO JSON DE SEGURIDAD
+          ###### ###### ###### ###### ###### ###### ###### ######
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
