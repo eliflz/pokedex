@@ -1,36 +1,55 @@
-# Pokédex Angular
+# 🐉 PokeDex Web App - Pueblo Paleta Inc.
 
-[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
-[![codecov](https://codecov.io/gh/keilermora/pokedex-angular/branch/master/graph/badge.svg?token=9E0D28IOFT)](https://codecov.io/gh/keilermora/pokedex-angular)
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+## 📌 Descripción del Proyecto
+Esta es una aplicación interactiva desarrollada con **Angular** que permite a los usuarios consultar información detallada sobre diversos Pokémon. El proyecto ha sido desplegado utilizando una arquitectura moderna en la nube, garantizando alta disponibilidad y estándares de seguridad corporativos.
 
-[https://keilermora.github.io/pokedex-angular/](https://keilermora.github.io/pokedex-angular/)
+El objetivo principal de este trabajo es demostrar el dominio en la integración de frameworks frontend con servicios de **Cloud Computing** y flujos de trabajo **DevOps**.
 
-La aplicación muestra el listado y el detalle de los Pokémon de las primeras 3 generaciones.
+---
 
-La imagen que representa un Pokémon en el listado muestra las variaciones que estos tuvieron durante las primeras versiones, desde la versión Green (1996) hasta la version Emerald (2005).
+## ☁️ Arquitectura de Despliegue
+Para este proyecto se seleccionaron las siguientes herramientas líderes en la industria:
 
-Los detalles de un Pokémon individual muestra sus estadísticas base y los registros de la Pokédex de las diferentes versiones.
+* **Hosting:** [Azure Static Web Apps](https://azure.microsoft.com/es-es/products/app-service/static/)
+* **CI/CD:** [GitHub Actions](https://github.com/features/actions)
+* **Seguridad:** [Security Headers Auditor](https://securityheaders.com/)
 
-El proyecto fue desarrollado usando la librería de JavaScript [Angular](https://angular.io/) para crear la interfaz de usuario, en comunicación con la Api RESTful [PokéAPI](https://pokeapi.co/).
+---
 
-## Requisitos mínimos
+## 🛠️ Guía de Instalación y Uso
 
-- [Nodejs](https://nodejs.org) con soporte de largo plazo (LTS).
-- Un navegador web
+### Requisitos Previos
+* Tener instalado [Node.js](https://nodejs.org/) (versión 18 o superior).
+* Tener instalado el [Angular CLI](https://angular.io/cli).
 
-## Ambiente de pruebas
+### Instalación Local
+1.  Clona este repositorio:
+    `git clone https://github.com/tu-usuario/pokedex.git`
+2.  Instala las dependencias:
+    `npm install`
+3.  Inicia el servidor de desarrollo:
+    `ng serve`
+4.  Abre tu navegador en `http://localhost:4200/`
 
-Ejecutar en la raíz del proyecto:
+---
 
-```
-npm start
-```
+## 🚀 Despliegue Automático
+Este repositorio está configurado para que cada cambio subido a la rama `main` dispare un flujo de trabajo automático en GitHub Actions. Este proceso incluye:
+1.  Instalación de dependencias de Angular.
+2.  Compilación (Build) del proyecto.
+3.  Sincronización de artefactos con los servidores de Azure.
 
-## Referencias
+---
 
-- [Angular](https://angular.io/): One framework.
-- [Angular Folder Structure](https://angular-folder-structure.readthedocs.io/en/latest/): Create a skeleton structure which is flexible for projects big or small.
-- [Font Awesome](https://fontawesome.com/): The web's most popular icon set and toolkit.
-- [Normalize.css](https://necolas.github.io/normalize.css/): A modern, HTML5-ready alternative to CSS resets.
-- [PokéAPI](https://pokeapi.co/): The RESTful Pokémon API.
+## 🛡️ Estándares de Seguridad
+La aplicación cumple con las normativas de **Pueblo Paleta Inc.** mediante la implementación de:
+* **HTTPS forzado** mediante HSTS.
+* **Políticas de Seguridad de Contenido (CSP)**.
+* **Protección contra Clickjacking**.
+
+---
+
+## 👨‍💻 Autor
+* **Nombre:** (Tu nombre aquí)
+* **Curso:** (Tu curso aquí)
+* **Institución:** (Tu centro educativo)
