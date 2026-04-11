@@ -24,7 +24,7 @@ Este documento detalla el ciclo de vida completo del despliegue en la nube utili
 
 ## 3. URL de la Aplicación
 
-**Acceso público:** `https://ashy-sand-09d6db80f.5.azurestaticapps.net`
+**Acceso público:** `[https://ashy-sand-09d6db80f.5.azurestaticapps.net](https://ashy-sand-09d6db80f.2.azurestaticapps.net/error)`
 
 > Esta URL se deriva del nombre del secreto de implementación configurado en el repositorio de GitHub.
 
