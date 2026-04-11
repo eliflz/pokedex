@@ -23,10 +23,10 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ASHY_SAND_09D6DB80F }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          ###### CONFIGURACIÓN PARA ANGULAR ######
-          app_location: "/"          # Donde está el package.json
+          ###### CONFIGURACIÓN EXACTA PARA TU PROYECTO ######
+          app_location: "/"          # Raíz donde está el package.json
           api_location: ""           
-          output_location: "dist"    # Azure compilará Angular y buscará aquí
+          output_location: "dist/pokedex-angular" # RUTA FINAL SEGÚN TUS LOGS
           ###### ###### ###### ###### ###### ######
 
   close_pull_request_job:
