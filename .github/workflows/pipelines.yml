@@ -3,7 +3,7 @@ name: Azure Static Web Apps CI/CD
 on:
   push:
     branches:
-      - main  # Asegúrate de que tu rama se llame main
+      - main
 
 jobs:
   build_and_deploy_job:
@@ -20,15 +20,13 @@ jobs:
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
         with:
-          # Nombre exacto de tu secreto en GitHub
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ASHY_SAND_09D6DB80F }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          
-          ###### CONFIGURACIÓN CRÍTICA PARA POKEDEX ######
-          app_location: "/"       # Donde está tu index.html
-          api_location: ""        # Sin funciones API
-          output_location: "/"    # SE CORRIGE A "/" PARA QUE ENCUENTRE EL INDEX EN LA RAÍZ
+          ###### CONFIGURACIÓN PARA ANGULAR ######
+          app_location: "/"          # Donde está el package.json
+          api_location: ""           
+          output_location: "dist"    # Azure compilará Angular y buscará aquí
           ###### ###### ###### ###### ###### ######
 
   close_pull_request_job:
