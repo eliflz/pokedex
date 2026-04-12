@@ -311,9 +311,9 @@ Este proyecto demostró que el despliegue de una aplicación Angular en la nube 
 
 | Campo | Detalle |
 |:---|:---|
-| **Nombre** | (Tu nombre aquí) |
-| **Curso** | (Tu curso aquí) |
-| **Institución** | (Tu centro educativo) |
+| **Nombre** | (Eliecer Arias Flórez) |
+| **Curso** | (Sistemas Distribuidos-1598) |
+| **Institución** | (Fundación Universitaria Tecnológico Comfenalco) |
 | **Estado final** | Despliegue exitoso ✅ |
 
 ---
