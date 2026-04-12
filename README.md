@@ -115,8 +115,8 @@ Después de crear la cuenta, se recomienda aplicar las siguientes buenas prácti
 | Campo | Detalle |
 |:---|:---|
 | **Nombre** | (Eliecer Arias Flórez) |
-| **Curso** | (Tu curso aquí) |
-| **Institución** | (Fundación universitaria tecnológico comfenalco) |
+| **Curso** | (Sistemas Distribuidos-1598) |
+| **Institución** | (Fundación Universitaria Tecnológico Comfenalco) |
 
 ---
 
