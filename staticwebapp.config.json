@@ -14,3 +14,4 @@
     "rewrite": "/index.html",
     "exclude": ["/assets/*", "/*.{css,js,png,gif,ico,svg}"]
   }
+ }
