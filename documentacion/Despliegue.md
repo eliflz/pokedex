@@ -145,19 +145,26 @@ jobs:
 Creé el archivo `staticwebapp.config.json` en la raíz del proyecto para implementar encabezados HTTP de seguridad:
 
 ```json
+
 {
   "globalHeaders": {
-    "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://raw.githubusercontent.com; connect-src 'self' https://pokeapi.co https://beta.pokeapi.co;",
-    "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+    "Content-Security-Policy": "default-src 'self'; script-src 'self' 'sha256-p0FPIQqU9ygEeoHXD1r5QFmkbWdNMrwlppALbMhawK4='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://raw.githubusercontent.com https://assets.pokemon.com; connect-src 'self' https://pokeapi.co https://beta.pokeapi.co;",
+    "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
     "X-Content-Type-Options": "nosniff",
     "X-Frame-Options": "DENY",
-    "Referrer-Policy": "no-referrer"
+    "Referrer-Policy": "no-referrer",
+    "Permissions-Policy": "geolocation=(), microphone=(), camera=(), payment=(), usb=(), interest-cohort=()",
+    "X-Permitted-Cross-Domain-Policies": "none",
+    "Cross-Origin-Embedder-Policy": "unsafe-none",
+    "Cross-Origin-Opener-Policy": "same-origin",
+    "Cross-Origin-Resource-Policy": "same-origin"
   },
   "navigationFallback": {
     "rewrite": "/index.html",
     "exclude": ["/assets/*", "/*.{css,js,png,gif,ico,svg}"]
   }
 }
+
 ```
 
 | Encabezado | Función |
