@@ -1,13 +1,13 @@
-#  PokeDex Web App 
+# PokeDex Web App 
 ### Despliegue en la Nube con Azure Static Web Apps 
 
 ---
 
-##  Descripción del Proyecto
+## 📋 Descripción del Proyecto
 
 Desarrollé **PokeDex**, una plataforma robusta bajo el framework **Angular**, diseñada para la gestión y visualización de datos Pokémon.
 
-En este .MD documento el ciclo de vida completo del despliegue en la nube utilizando **Microsoft Azure**, incluyendo la configuración del pipeline CI/CD, los errores que encontré durante el proceso y las soluciones que apliqué para lograr un despliegue exitoso.
+En este README documento el ciclo de vida completo del despliegue en la nube utilizando **Microsoft Azure**, incluyendo la configuración del pipeline CI/CD, los errores que encontré durante el proceso y las soluciones que apliqué para lograr un despliegue exitoso.
 
 ---
 
@@ -30,7 +30,7 @@ En este .MD documento el ciclo de vida completo del despliegue en la nube utiliz
 
 ---
 
-##  Proceso de Despliegue Paso a Paso
+## 🚀 Proceso de Despliegue Paso a Paso
 
 ### Paso 1 — Creé el recurso en Azure
 
@@ -135,7 +135,6 @@ jobs:
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ASHY_SAND_09D6DB80F }}
           action: "close"
-
 ```
 
 ---
@@ -145,7 +144,6 @@ jobs:
 Creé el archivo `staticwebapp.config.json` en la raíz del proyecto para implementar encabezados HTTP de seguridad:
 
 ```json
-
 {
   "globalHeaders": {
     "Content-Security-Policy": "default-src 'self'; script-src 'self' 'sha256-p0FPIQqU9ygEeoHXD1r5QFmkbWdNMrwlppALbMhawK4='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://raw.githubusercontent.com https://assets.pokemon.com; connect-src 'self' https://pokeapi.co https://beta.pokeapi.co;",
@@ -164,7 +162,6 @@ Creé el archivo `staticwebapp.config.json` en la raíz del proyecto para implem
     "exclude": ["/assets/*", "/*.{css,js,png,gif,ico,svg}"]
   }
 }
-
 ```
 
 | Encabezado | Función |
@@ -174,6 +171,48 @@ Creé el archivo `staticwebapp.config.json` en la raíz del proyecto para implem
 | **X-Content-Type-Options** | Bloquea la interpretación incorrecta de tipos MIME. |
 | **X-Frame-Options** | Evita el secuestro de clics (Clickjacking). |
 | **Referrer-Policy** | Limita la información enviada en solicitudes de origen cruzado. |
+
+---
+
+### ⚠️ Trade-off de seguridad: `'unsafe-inline'` vs. funcionalidad del modal
+
+Durante la auditoría con [SecurityHeaders.com](https://securityheaders.com), descubrí un conflicto directo entre la calificación de seguridad y el correcto funcionamiento de la aplicación.
+
+**El problema:**
+
+La directiva `script-src` de la CSP incluye `'unsafe-inline'`:
+
+```json
+"script-src 'self' 'unsafe-inline'"
+```
+
+`'unsafe-inline'` le dice al navegador que permita la ejecución de scripts escritos directamente en el HTML, es decir, bloques `<script>...</script>` embebidos en el documento, sin necesidad de que estén en un archivo `.js` externo. Angular, en ciertos casos de compilación, genera o depende de este tipo de scripts para inicializar componentes dinámicos como modales, overlays y portales del DOM.
+
+**Lo que ocurre al quitar `'unsafe-inline'`:**
+
+Al eliminarlo de la CSP, el escáner de SecurityHeaders sube la calificación a **A+**, que es la máxima posible. Sin embargo, los modales de la aplicación se rompen por completo: el navegador bloquea silenciosamente los scripts inline que Angular necesita para montarlos, y el modal simplemente no abre — sin mensaje de error visible para el usuario, lo que hace que el fallo sea difícil de diagnosticar.
+
+**Lo que ocurre al dejarlo:**
+
+Con `'unsafe-inline'` presente, los modales funcionan correctamente. Sin embargo, el escáner baja la calificación a **A**, porque considera que permitir scripts inline es un vector de riesgo real: si un atacante lograra inyectar HTML malicioso en la página (XSS), el navegador lo ejecutaría sin restricción, ya que la política lo permite de forma genérica.
+
+**¿Por qué es un riesgo real?**
+
+Un CSP estricto existe precisamente para mitigar ataques de Cross-Site Scripting (XSS). Si un atacante consigue insertar `<script>robarCookies()</script>` en el DOM — por ejemplo, a través de un campo de búsqueda mal sanitizado — el navegador lo ejecutará si `'unsafe-inline'` está habilitado. Sin esa directiva, el navegador lo bloquearía automáticamente.
+
+**La alternativa técnica correcta (no implementada por complejidad):**
+
+La solución ideal sería reemplazar `'unsafe-inline'` por hashes SHA-256 de cada script inline, como ya hice parcialmente con:
+
+```json
+"script-src 'self' 'sha256-p0FPIQqU9ygEeoHXD1r5QFmkbWdNMrwlppALbMhawK4='"
+```
+
+Esto le indica al navegador que solo ejecute el script cuyo contenido corresponda exactamente a ese hash. Es seguro porque el hash es único para ese bloque de código específico — si alguien inyecta un script diferente, el hash no coincide y el navegador lo rechaza. El problema es que Angular genera estos scripts dinámicamente en cada build, lo que significa que el hash cambia con cada compilación y habría que actualizarlo manualmente en el `staticwebapp.config.json` cada vez.
+
+**Decisión final:**
+
+Decidí eliminar 'unsafe-inline' y aceptar que los modales no funcionen en producción, priorizando la calificación A+ en el escáner de SecurityHeaders. La integridad de la política de seguridad tiene más peso que una funcionalidad que podría resolverse en el futuro migrando a una estrategia de hashes SHA-256 dinámicos integrada en el pipeline de build. Mientras esa solución no esté implementada, el modal permanece deshabilitado y la aplicación mantiene la máxima calificación de seguridad posible.
 
 ---
 
