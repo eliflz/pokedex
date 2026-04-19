@@ -1,17 +1,17 @@
-# Reporte Técnico: PokeDex Web App — Enterprise Edition
-## Despliegue en la Nube con Azure Static Web Apps & CI/CD
+#  PokeDex Web App 
+### Despliegue en la Nube con Azure Static Web Apps 
 
 ---
 
-## 1. Descripción del Proyecto
+##  Descripción del Proyecto
 
-La aplicación **PokeDex** es una plataforma robusta desarrollada bajo el framework **Angular**, diseñada para la gestión y visualización de datos Pokémon.
+Desarrollé **PokeDex**, una plataforma robusta bajo el framework **Angular**, diseñada para la gestión y visualización de datos Pokémon.
 
-Este documento detalla el ciclo de vida completo del despliegue en la nube utilizando **Microsoft Azure**, incluyendo la configuración del pipeline CI/CD, los errores encontrados durante el proceso y las soluciones aplicadas para lograr un despliegue exitoso.
+En este .MD documento el ciclo de vida completo del despliegue en la nube utilizando **Microsoft Azure**, incluyendo la configuración del pipeline CI/CD, los errores que encontré durante el proceso y las soluciones que apliqué para lograr un despliegue exitoso.
 
 ---
 
-## 2. Plataforma y Servicios Utilizados
+## ⚙️ Plataforma y Servicios que Utilicé
 
 | Servicio | Descripción |
 |:---|:---|
@@ -22,60 +22,60 @@ Este documento detalla el ciclo de vida completo del despliegue en la nube utili
 
 ---
 
-## 3. URL de la Aplicación
+## 🌐 URL de la Aplicación
 
-**Acceso público:** `https://ashy-sand-09d6db80f.2.azurestaticapps.net`
+**Acceso público:** [https://ashy-sand-09d6db80f.2.azurestaticapps.net](https://ashy-sand-09d6db80f.2.azurestaticapps.net)
 
-> Esta URL fue confirmada directamente en el log del paso "Build And Deploy" de GitHub Actions.
+> Confirmé esta URL directamente en el log del paso **"Build And Deploy"** de GitHub Actions.
 
 ---
 
-## 4. Proceso de Despliegue Paso a Paso
+##  Proceso de Despliegue Paso a Paso
 
-### 4.1 — Creación del recurso en Azure
+### Paso 1 — Creé el recurso en Azure
 
-1. Acceder al Portal de Azure: [https://portal.azure.com](https://portal.azure.com)
-2. Buscar el servicio **"Static Web Apps"** en la barra de búsqueda.
-3. Hacer clic en **"Crear"** y completar los campos:
+1. Accedí al Portal de Azure: [https://portal.azure.com](https://portal.azure.com)
+2. Busqué el servicio **"Static Web Apps"** en la barra de búsqueda.
+3. Hice clic en **"Crear"** y completé los campos:
    - **Suscripción:** Free Trial
    - **Grupo de recursos:** `rg-pokedex`
    - **Nombre:** `pokedex-app`
    - **Plan de hospedaje:** Free
    - **Región:** East US 2
-4. En la sección de despliegue, seleccionar **GitHub** como origen y autorizar el acceso al repositorio.
-5. Hacer clic en **"Revisar y crear"** → **"Crear"**.
+4. En la sección de despliegue, seleccioné **GitHub** como origen y autoricé el acceso al repositorio.
+5. Hice clic en **"Revisar y crear"** → **"Crear"**.
 
-> Azure genera automáticamente un archivo `.github/workflows/azure-static-web-apps-*.yml` en el repositorio al vincular la cuenta.
+> Azure generó automáticamente un archivo `.github/workflows/azure-static-web-apps-*.yml` en mi repositorio al vincular la cuenta.
 
 ---
 
-### 4.2 — Configuración del secreto en GitHub
+### Paso 2 — Configuré el secreto en GitHub
 
-Azure proporciona un token de autenticación que debe registrarse como secreto en el repositorio para que el pipeline tenga permisos de despliegue.
+Azure me proporcionó un token de autenticación que registré como secreto en el repositorio para que el pipeline tuviera permisos de despliegue.
 
-**Pasos:**
-1. En el Portal de Azure, ir al recurso creado → **"Administrar token de implementación"**.
-2. Copiar el token generado.
-3. En GitHub, ir a **Settings → Secrets and variables → Actions → New repository secret**.
-4. Configurar el secreto con el nombre exacto:
+**Pasos que seguí:**
+1. En el Portal de Azure, fui al recurso creado → **"Administrar token de implementación"**.
+2. Copié el token generado.
+3. En GitHub, fui a **Settings → Secrets and variables → Actions → New repository secret**.
+4. Configuré el secreto con el nombre exacto:
 
 ```
 AZURE_STATIC_WEB_APPS_API_TOKEN_ASHY_SAND_09D6DB80F
 ```
 
-5. Pegar el token copiado y guardar.
+5. Pegué el token copiado y guardé.
 
 ---
 
-### 4.3 — Configuración del archivo YML (Pipeline CI/CD)
+### Paso 3 — Configuré el archivo YML (Pipeline CI/CD)
 
-Azure genera automáticamente un archivo de flujo de trabajo en la ruta:
+Azure generó automáticamente un archivo de flujo de trabajo en la ruta:
 
 ```
 .github/workflows/azure-static-web-apps-ashy-sand-09d6db80f.yml
 ```
 
-El archivo generado inicialmente presentó múltiples errores que requirieron varias iteraciones de corrección manual. El archivo final funcional quedó así:
+El archivo generado inicialmente presentó múltiples errores que tuve que corregir manualmente en varias iteraciones. El archivo final funcional quedó así:
 
 ```yaml
 name: Azure Static Web Apps CI/CD
@@ -139,9 +139,9 @@ jobs:
 
 ---
 
-### 4.4 — Configuración de seguridad (`staticwebapp.config.json`)
+### Paso 4 — Configuré la seguridad (`staticwebapp.config.json`)
 
-Se creó el archivo `staticwebapp.config.json` en la raíz del proyecto para implementar encabezados HTTP de seguridad:
+Creé el archivo `staticwebapp.config.json` en la raíz del proyecto para implementar encabezados HTTP de seguridad:
 
 ```json
 {
@@ -161,7 +161,7 @@ Se creó el archivo `staticwebapp.config.json` en la raíz del proyecto para imp
 
 | Encabezado | Función |
 |:---|:---|
-| **Content-Security-Policy** | Restringe recursos externos; permite explícitamente la PokeAPI. |
+| **Content-Security-Policy** | Restringe recursos externos; permití explícitamente la PokeAPI. |
 | **Strict-Transport-Security** | Garantiza que toda comunicación sea vía HTTPS (HSTS). |
 | **X-Content-Type-Options** | Bloquea la interpretación incorrecta de tipos MIME. |
 | **X-Frame-Options** | Evita el secuestro de clics (Clickjacking). |
@@ -169,24 +169,23 @@ Se creó el archivo `staticwebapp.config.json` en la raíz del proyecto para imp
 
 ---
 
-### 4.5 — Verificación del despliegue en GitHub Actions
+### Paso 5 — Verifiqué el despliegue en GitHub Actions
 
-Una vez aplicados todos los cambios y realizado el `push` a la rama `main`:
+Una vez que apliqué todos los cambios y realicé el `push` a la rama `main`:
 
-1. Ir al repositorio → pestaña **Actions**.
-2. Seleccionar el flujo de trabajo más reciente: `Azure Static Web Apps CI/CD`.
-3. Expandir el paso **"Build And Deploy"** y confirmar la línea:
+1. Fui al repositorio → pestaña **Actions**.
+2. Seleccioné el flujo de trabajo más reciente: `Azure Static Web Apps CI/CD`.
+3. Expandí el paso **"Build And Deploy"** y confirmé la línea:
 ```
    Status: Succeeded.
    Deployment Complete :)
    Visit your site at: https://ashy-sand-09d6db80f.2.azurestaticapps.net
 ```
-4. Acceder a la URL pública para verificar que la aplicación carga correctamente:
-   `https://ashy-sand-09d6db80f.2.azurestaticapps.net`
+4. Accedí a la URL pública y verifiqué que la aplicación cargaba correctamente.
 
 ---
 
-## 5. Errores Encontrados y Soluciones
+## 🐛 Errores que Encontré y Cómo los Resolví
 
 ### Error 1 — Fallo de compilación en el YML (`dist` folder not found)
 
@@ -196,9 +195,9 @@ Una vez aplicados todos los cambios y realizado el `push` a la rama `main`:
 Failed to find a default file in the app artifacts folder (dist)
 ```
 
-**Causa:** Angular no genera los archivos compilados directamente en `/dist`, sino en una subcarpeta con el nombre exacto del proyecto: `/dist/pokedex-angular`. El archivo YML generado automáticamente por Azure apuntaba a la ruta genérica `dist`, que no existe tras la compilación.
+**Causa:** Angular no genera los archivos compilados directamente en `/dist`, sino en una subcarpeta con el nombre exacto del proyecto: `/dist/pokedex-angular`. El archivo YML que Azure generó automáticamente apuntaba a la ruta genérica `dist`, que no existe tras la compilación.
 
-**Solución:**
+**Solución que apliqué:**
 
 ```yaml
 # Antes (incorrecto — generado por Azure):
@@ -220,18 +219,18 @@ We're not sure. The truth is that it didn't respond what we expected...
 ```
 
 **Causa 1 — Content-Security-Policy demasiado restrictivo:**
-El archivo `staticwebapp.config.json` tenía `default-src 'self'`, lo que bloqueaba silenciosamente todas las peticiones HTTP a dominios externos. El interceptor HTTP de Angular capturaba ese fallo y redirigía a la ruta `/error`.
+Tenía `default-src 'self'` en el `staticwebapp.config.json`, lo que bloqueaba silenciosamente todas las peticiones HTTP a dominios externos. El interceptor HTTP de Angular capturaba ese fallo y redirigía a la ruta `/error`.
 
 **Causa 2 — Ruta de imágenes incorrecta en producción:**
 El archivo `environment.prod.ts` tenía la ruta `/pokedex-angular/assets/images`, válida para GitHub Pages pero no para Azure, donde la app vive en la raíz del dominio.
 
-**Solución — `staticwebapp.config.json`:**
+**Solución en `staticwebapp.config.json`:**
 
 ```json
 "connect-src 'self' https://pokeapi.co https://beta.pokeapi.co;"
 ```
 
-**Solución — `environment.prod.ts`:**
+**Solución en `environment.prod.ts`:**
 
 ```typescript
 // Antes:
@@ -249,13 +248,13 @@ imagesPath: '/assets/images',
 
 **Causa:** El proyecto usa `@angular-builders/custom-webpack` con un `webpack.config.ts` personalizado. El motor Oryx de Azure no sabe manejar este builder y generaba la carpeta `dist` vacía, aunque el paso de despliegue no fallara explícitamente.
 
-**Iteración fallida:** Se intentó usar `skip_app_build: true` manteniendo `app_location: "/"` y `output_location: "dist/pokedex-angular"`. Azure ignoró el `output_location` y buscó el `index.html` en la raíz, lanzando:
+**Iteración fallida:** Intenté usar `skip_app_build: true` manteniendo `app_location: "/"` y `output_location: "dist/pokedex-angular"`. Azure ignoró el `output_location` y buscó el `index.html` en la raíz, lanzando:
 
 ```
 Failed to find a default file in the app artifacts folder (/).
 ```
 
-**Solución definitiva:** Compilar manualmente con Node.js en el pipeline y apuntar `app_location` directamente al directorio del build ya generado:
+**Solución definitiva que funcionó:** Compilar manualmente con Node.js en el pipeline y apuntar `app_location` directamente al directorio del build ya generado:
 
 ```yaml
 - name: Setup Node.js
@@ -281,11 +280,11 @@ Failed to find a default file in the app artifacts folder (/).
 
 ### Error 4 — URL incorrecta en la documentación
 
-**Síntoma:** Se accedía a `https://ashy-sand-09d6db80f.5.azurestaticapps.net` y daba error 404 o "sitio no disponible".
+**Síntoma:** Accedía a `https://ashy-sand-09d6db80f.5.azurestaticapps.net` y daba error 404 o "sitio no disponible".
 
-**Causa:** La URL fue asumida incorrectamente. Azure asigna un número de entorno en la URL que solo se puede confirmar leyendo el log del paso "Build And Deploy" en GitHub Actions.
+**Causa:** Asumí la URL incorrectamente. Azure asigna un número de entorno en la URL que solo se puede confirmar leyendo el log del paso "Build And Deploy" en GitHub Actions.
 
-**Solución:** Leer el log del pipeline hasta encontrar la línea:
+**Solución:** Leí el log del pipeline hasta encontrar la línea:
 
 ```
 Visit your site at: https://ashy-sand-09d6db80f.2.azurestaticapps.net
@@ -295,11 +294,11 @@ La URL correcta y confirmada por Azure es la que termina en `.2.azurestaticapps.
 
 ---
 
-## 6. Reflexión Técnica
+## 💡 Lo que Aprendí
 
-Este proyecto demostró que el despliegue de una aplicación Angular en la nube involucra mucho más que subir archivos. Las lecciones clave obtenidas fueron:
+Este proyecto me demostró que el despliegue de una aplicación Angular en la nube involucra mucho más que subir archivos. Las lecciones clave que me llevé fueron:
 
-- **El builder importa:** `@angular-builders/custom-webpack` impide que Oryx compile correctamente. Es necesario tomar el control del build manualmente en el pipeline.
+- **El builder importa:** `@angular-builders/custom-webpack` impide que Oryx compile correctamente. Tuve que tomar el control del build manualmente en el pipeline.
 - **`skip_app_build` cambia el comportamiento de `output_location`:** Cuando está activo, Azure ignora `output_location` y busca en `app_location`. La solución es apuntar `app_location` al directorio del build.
 - **La CSP bloquea APIs externas silenciosamente:** Un `default-src 'self'` sin `connect-src` explícito impide todas las llamadas HTTP a dominios externos.
 - **Los entornos de despliegue difieren:** Una ruta válida en GitHub Pages no lo es en Azure Static Web Apps.
@@ -307,15 +306,11 @@ Este proyecto demostró que el despliegue de una aplicación Angular en la nube 
 
 ---
 
-## 7. Autor
+## 👤 Autor
 
 | Campo | Detalle |
 |:---|:---|
-| **Nombre** | (Eliecer Arias Flórez) |
-| **Curso** | (Sistemas Distribuidos-1598) |
-| **Institución** | (Fundación Universitaria Tecnológico Comfenalco) |
+| **Nombre** | Eliecer Arias Flórez |
+| **Curso** | Sistemas Distribuidos — 1598 |
+| **Institución** | Fundación Universitaria Tecnológico Comfenalco |
 | **Estado final** | Despliegue exitoso ✅ |
-
----
-
-*Documento técnico generado como parte del proyecto PokeDex Web App — Pueblo Paleta Inc.*
