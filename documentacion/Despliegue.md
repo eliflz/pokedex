@@ -118,9 +118,9 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ASHY_SAND_09D6DB80F }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: "dist/pokedex-angular"
+          app_location: "dist/pokedex-angular"   # <- apunta directo al build
           api_location: ""
-          output_location: ""
+          output_location: ""                     # <- vacío porque ya apuntamos al dist
           config_file_location: "/"
           skip_app_build: true
 
@@ -135,6 +135,7 @@ jobs:
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ASHY_SAND_09D6DB80F }}
           action: "close"
+
 ```
 
 ---
