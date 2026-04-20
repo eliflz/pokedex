@@ -52,7 +52,7 @@ npm install -g @angular/cli@14
 
 ```bash
 # 1. Clonar el repositorio
-git clone https://github.com/eliflz/pokedex-main.git
+git clone https://github.com/eliflz/pokedex.git
 cd pokedex-main
 
 # 2. Instalar dependencias
